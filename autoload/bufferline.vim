@@ -9,6 +9,7 @@ function! s:generate_names()
   let i = 1
   let last_buffer = bufnr('$')
   let current_buffer = bufnr('%')
+  let idx = 1   " buffer index counter
   while i <= last_buffer
     if bufexists(i) && buflisted(i)
       let modified = ' '
@@ -32,7 +33,11 @@ function! s:generate_names()
       if !skip
         let name = ''
         if g:bufferline_show_bufnr != 0 && g:bufferline_status_info.count >= g:bufferline_show_bufnr
-          let name =  i . ':'
+            if g:bufferline_show_bufnr == 1
+               let name =  i . ':'
+            else
+               let name =  idx . ':'
+            endif
         endif
         let name .= fname . modified
 
@@ -45,6 +50,7 @@ function! s:generate_names()
 
         call add(names, [i, name])
       endif
+      let idx += 1
     endif
     let i += 1
   endwhile
